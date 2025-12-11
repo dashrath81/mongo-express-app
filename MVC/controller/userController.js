@@ -1,4 +1,4 @@
-const usermodel=require('../Model/userModel')
+const usermodel = require('../Model/userModel')
 
 const sawregister = (req, res) => {
     res.render("register");
@@ -10,7 +10,6 @@ const Register = async (req, res) => {
     const data = await usermodel.create(req.body);
     res.send(data);
 }
-
 const login = async (req, res) => {
     const { username, password } = req.body;
 
@@ -19,24 +18,24 @@ const login = async (req, res) => {
     if (!user) {
         return res.send("Invalid username or password");
     }
-
     res.cookie("users", user._id).send("logged in");
 };
-
-
 const getAllUsers = async (req, res) => {
     const data = await usermodel.find();
     res.send(data)
 }
-const deleteuser = async(req,res)=>{
+const local = (req, res) => {
+    return res.send("logged in with local strategy")
+}
+const deleteuser = async (req, res) => {
     const id = req.params.id;
     const data = await usermodel.findByIdAndDelete(id);
     res.send(data);
 }
-const updateuser = async(req,res)=>{
+const updateuser = async (req, res) => {
     const id = req.params.id;
-    const data = await usermodel.findByIdAndUpdate({_id:req.params.id},req.body,{new:true});
+    const data = await usermodel.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true });
     res.send(data);
 }
 
-module.exports = { Register, login , getAllUsers , deleteuser, updateuser, sawregister, sawlogin };
+module.exports = { Register, login, getAllUsers,local, deleteuser, updateuser, sawregister, sawlogin };
