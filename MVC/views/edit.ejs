@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog</title>
+</head>
+
+<body>
+
+    <h1>Edit Blog</h1>
+
+    <form action="/blog/update/<%= blog._id %>" method="post" enctype="multipart/form-data">
+
+        <input type="text" name="title" value="<%= blog.title %>" required><br><br>
+        <input type="text" name="author" value="<%= blog.author %>" required><br><br>
+
+        <textarea name="content" required><%= blog.content %></textarea><br><br>
+
+        <input type="date" name="date" value="<%= blog.date.toISOString().split('T')[0] %>" required><br><br>
+
+        <p>Upload New Image:</p>
+        <input type="file" name="image"><br><br>
+
+        <button type="submit">Update Blog</button>
+    </form>
+
+
+</body>
+
+</html>
