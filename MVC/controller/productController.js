@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
 }
 const getAllProducts = async (req, res) => {
     const data = await productmodel.find().populate('categoryid');
-    res.send(data);
+    res.sen0d(data);
 }
 const updateProduct = async (req, res) => {
     const data = await productmodel.findByIdAndUpdate(req.params.id, req.body, { new: true });
