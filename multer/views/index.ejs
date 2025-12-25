@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Form & List</title>
+</head>
+
+<body>
+    <h2>Add User</h2>
+
+    <form action="/insertData" method="post" enctype="multipart/form-data">
+        <label>
+            Username:
+            <input type="text" name="username" placeholder="Enter username" required>
+        </label>
+        <br><br>
+
+        <label>
+            Password:
+            <input type="password" name="password" placeholder="Enter password" required>
+        </label>
+        <br><br>
+
+        <label>
+            File:
+            <input type="file" name="image" required>
+        </label>
+        <br><br>
+
+        <input type="submit" value="Add User">
+    </form>
+
+    <hr>
+
+    <h2>User List</h2>
+
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% if (user && user.length > 0) { %>
+                <% user.forEach((u, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= u.username %></td>
+                        <td><%= u.password %></td>
+                        <td>
+                            <% if (u.image) { %>
+                                <img src="/upload/<%= u.image %>" width="70">
+                            <% } else { %>
+                                No Image
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4">No users found</td>
+                </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+
+</body>
+
+</html>

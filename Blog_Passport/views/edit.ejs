@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Blog</title>
+</head>
+<body>
+
+<h2>Edit Blog</h2>
+
+<form action="/blog/update/<%= blog._id %>" method="post" enctype="multipart/form-data">
+    <input type="text" name="title" value="<%= blog.title %>" required><br><br>
+    <input type="text" name="author" value="<%= blog.author %>" required><br><br>
+    <textarea name="content" required><%= blog.content %></textarea><br><br>
+    <input type="date" name="date" value="<%= blog.date.toISOString().split('T')[0] %>"><br><br>
+
+    <% if (blog.Image) { %>
+        <img src="/uploads/<%= blog.Image %>" width="200"><br><br>
+    <% } %>
+
+    <input type="file" name="image"><br><br>
+
+    <button>Update Blog</button>
+</form>
+
+<br>
+<a href="/blog">Back to Blog</a>
+
+</body>
+</html>

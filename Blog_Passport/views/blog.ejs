@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog Page</title>
+</head>
+<body>
+
+<h2>All Blogs</h2>
+
+<a href="/user/logout">Logout</a>
+<hr>
+
+<!-- CREATE BLOG -->
+<form action="/blog/create" method="post" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Title" required><br><br>
+    <input type="text" name="author" placeholder="Author" required><br><br>
+    <textarea name="content" placeholder="Content" required></textarea><br><br>
+    <input type="date" name="date"><br><br>
+    <input type="file" name="image"><br><br>
+    <button>Create Blog</button>
+</form>
+
+<hr>
+
+<!-- BLOG LIST -->
+<% blogs.forEach(blog => { %>
+    <h3><%= blog.title %></h3>
+    <p><b>Author:</b> <%= blog.author %></p>
+    <p><%= blog.content %></p>
+    <p><%= blog.date.toDateString() %></p>
+
+    <% if (blog.Image) { %>
+        <img src="/uploads/<%= blog.Image %>" width="200">
+    <% } %>
+
+    <br><br>
+    <a href="/blog/edit/<%= blog._id %>">Edit</a>
+    |
+    <a href="/blog/delete/<%= blog._id %>">Delete</a>
+
+    <hr>
+<% }) %>
+
+</body>
+</html>
