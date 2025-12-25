@@ -1,5 +1,6 @@
 const usermodel = require('../Model/userModel')
 const nodemailer = require("nodemailer");
+const jwt = require('jsonwebtoken');
 
 const sawregister = (req, res) => {
     res.render("register");
@@ -19,11 +20,21 @@ const login = async (req, res) => {
     if (!user) {
         return res.send("Invalid username or password");
     }
-    else if(user.password !== password)
-    {
+    if (user.password !== password) {
         return res.send("Invalid username or password");
     }
-    res.cookie("users", user._id).send("logged in");
+    if (user && user.password === password) {
+        let playload = {
+            username: user.username,
+            password: user.password,
+            id: user._id
+        }
+
+        let token = jwt.sign(playload, "private-key");
+        console.log(token);
+
+        res.cookie("users", user._id).send("logged in");
+    }
 };
 const getAllUsers = async (req, res) => {
     const data = await usermodel.find();
@@ -45,31 +56,31 @@ const deleteuser = async (req, res) => {
     res.send(data);
 }
 
-let otp=Math.floor(Math.random()*10000);
-const mail=(req,res)=>{
-    const trasporter=nodemailer.createTransport({
-        service:"gmail",
-        auth:{
-            user:"dashrathsolanki024@gmail.com",
-            pass:"oxlqsohktyspqkvq",
+let otp = Math.floor(Math.random() * 10000);
+const mail = (req, res) => {
+    const trasporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "dashrathsolanki024@gmail.com",
+            pass: "oxlqsohktyspqkvq",
         },
     });
-    const mailOptions={
-        from:"dashrathsolanki024@gmail.com",
-        to:req.body.email,
-        subject:"OTP for password reset",
+    const mailOptions = {
+        from: "dashrathsolanki024@gmail.com",
+        to: req.body.email,
+        subject: "OTP for password reset",
         html: `<p>${otp}</p>`,
 
     }
     trasporter.sendMail(mailOptions, (error, data) => {
         if (error) {
             console.log(error);
-        } 
+        }
         else {
             console.log(data);
         }
         res.send("otp sent");
-    });
+    });
 }
 const updateuser = async (req, res) => {
     const id = req.params.id;
@@ -77,4 +88,10 @@ const updateuser = async (req, res) => {
     res.send(data);
 }
 
-module.exports = { Register, login, getAllUsers, local, mail, deleteuser, updateuser,password, sawregister, sawlogin };
+const verifyToken = (req, res) => {
+    let  tokan = req.headers.authorization.split(" ")[1];
+    let  decoded = jwt.verify(tokan, "private-key");
+    return res.send(decoded);
+}
+
+module.exports = { Register, login, getAllUsers, local, mail, deleteuser, updateuser, password, sawregister, sawlogin ,verifyToken};

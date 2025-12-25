@@ -1,5 +1,5 @@
 const express = require('express');
-const {Register, login ,getAllUsers,local , mail, deleteuser, updateuser ,password, sawregister, sawlogin } = require("../controller/userController");
+const {Register, login ,getAllUsers,local , mail, deleteuser, updateuser ,password, sawregister, sawlogin,verifyToken } = require("../controller/userController");
 const isAuth = require("../middelwer/Auth");
 const passport = require('passport');
 
@@ -16,6 +16,7 @@ router.patch('/update/:id', updateuser);
 router.get("/", isAuth, getAllUsers);
 router.post('/mail', mail);
 router.post('/local',passport.authenticate('local'),local)
+router.post('/verify',verifyToken)
 
 
 module.exports = router;
