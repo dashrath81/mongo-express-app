@@ -10,7 +10,14 @@ const LocalAuth = require('./middelwer/localAuth');
 const Blogrouter = require('./routs/BlogRouter');
 const path = require("path");
 
+<<<<<<< HEAD
 const app = express();
+=======
+
+
+const app = express();
+
+>>>>>>> cc989d1c16c01c40cb3344177798c13497292d46
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
