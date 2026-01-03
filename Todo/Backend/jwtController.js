@@ -2,8 +2,6 @@ const express = require('express');
 const jwtModel = require('./jwt');
 const jwt = require('jsonwebtoken');
 
-
-
 const registeruser = async (req, res) => {
     const { email, password } = req.body;
     const data = await jwtModel.create({
